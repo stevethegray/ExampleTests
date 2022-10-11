@@ -1,4 +1,5 @@
 using Amazon.Lambda.Core;
+using static StateInfoSearch.InformationSearch;
 
 // Assembly attribute to enable the Lambda function's JSON input to be converted into a .NET class.
 [assembly: LambdaSerializer(typeof(Amazon.Lambda.Serialization.SystemTextJson.DefaultLambdaJsonSerializer))]
@@ -9,26 +10,14 @@ public class Function
 {
     
     /// <summary>
-    /// A simple function that takes a string and does a ToUpper
+    /// Searches state information for abbreviations and capitals, input can be a full
+    /// or partial state name
     /// </summary>
-    /// <param name="input"></param>
-    /// <param name="context"></param>
-    /// <returns></returns>
-    public async Task<string> FunctionHandlerAsync(string state, ILambdaContext context)
+    /// <param name="stateName">Name of state to search for</param>
+    /// <param name="context">Lambda Context</param>
+    /// <returns>List containing matching results</returns>
+    public async Task<List<StateInfo>> FunctionHandlerAsync(string stateName, ILambdaContext context)
     {
-        var states = await InformationSearch.GetAllStateInformationAsync();
-
-        string? abbreviation = null;
-        foreach (var stateInfo in states)
-        {
-            //Converting everything to upper case to make the search case insensitive
-            if(stateInfo.state!.ToUpper().Contains(state.ToUpper()))
-            {
-                abbreviation = stateInfo.abbreviation!;
-                break;
-            }
-        }
-
-        return abbreviation!.ToUpper();
+        return await InformationSearch.SearchForStateInformationByNameAsync(stateName);
     }
 }
