@@ -1,0 +1,7 @@
+﻿<RunSettings>
+  <RunConfiguration>
+  </RunConfiguration>
+  <TestRunParameters>
+    <Parameter name="URI" value="https://r806lced41.execute-api.us-east-1.amazonaws.com/example" />
+  </TestRunParameters>
+</RunSettings>
